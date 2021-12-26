@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+if ! hash python3; then
+    echo "python3 is not installed"
+    exit 1
+fi
+
+ver=$(python3 -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
+if [ "$ver" -lt "38" ]; then
+    echo "This script requires python 3.8 or greater"
+    exit 1
+fi
+
+
+function startserver() {
+    python manage.py
+}
+
+
+function activate_development_environment() {
+    echo "Testing virtual environment path"
+
+    devlopment_environment_path="${PWD}/.env/bin/activate"
+    if [ ! -e "$devlopment_environment_path" ]; then
+        echo "Virtual environment not found!"
+        echo "Creating new virual environment"
+        python3 -m venv --prompt="v" .env
+    fi
+    source $devlopment_environment_path
+    source "${PWD}/deployments/development/env"
+}
+
+function deactivate_development_environment() {
+    echo "Testing virtual environment"
+    echo $VIRTUAL_ENV
+    deactivate
+}
+
+function install_requirements() {
+    pip install -r requirements.txt
+
+}
+
+function createdb() {
+  echo please type mysql username!
+  read dbuser
+  echo please type mysql password!
+  read password
+  python task.py $dbuser $password
+
+}
+
+case $1 in
+  activate)
+    echo "===================================================================="
+    echo "- Starting activation"
+    echo "===================================================================="
+    activate_development_environment
+  	;;
+  deactivate)
+    echo "===================================================================="
+    echo "- Starting deactivation"
+    echo "===================================================================="
+    deactivate_development_environment
+  	;;
+
+  startdb)
+    echo "===================================================================="
+  	echo "- Starting database"
+    echo "===================================================================="
+    docker-compose -f ${PWD}/deployments/development/docker-compose.yml up -d
+  	;;
+ startserver)
+   echo "======================================================================"
+   echo "starting server"
+   echo "======================================================================"
+   echo "Running server at http://127.0.0.1:8000/"
+  startserver
+
+  ;;
+  createdb)
+    createdb
+    ;;
+  install_requirements)
+    echo "===================================================================="
+  	echo "- installing pip modules"
+    echo "===================================================================="
+    install_requirements
+    ;;
+  *)
+  	echo "Sorry, I don't understand"
+  	;;
+esac
