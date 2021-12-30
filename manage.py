@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import time
-import subprocess
+import subprocess, sys
 
 
 print("session started!!!")
-one = subprocess.run("python ./server.py | python ./app-server.py", shell=True)
+one = subprocess.run(f"python ./server.py | python ./app-server.py {sys.argv[1]}", shell=True)
 
 print("session finished!!!")

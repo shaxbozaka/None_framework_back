@@ -12,10 +12,19 @@ if [ "$ver" -lt "38" ]; then
 fi
 
 
+
 function startserver() {
     python manage.py
 }
 
+function build() {
+  echo "please type mysql username: "
+  read username
+  echo please type '$username' password
+  read password
+
+
+}
 
 function activate_development_environment() {
     echo "Testing virtual environment path"
@@ -51,11 +60,11 @@ function createdb() {
 }
 
 case $1 in
-  activate)
+  build)
     echo "===================================================================="
-    echo "- Starting activation"
+    echo "- Started building"
     echo "===================================================================="
-    activate_development_environment
+    build
   	;;
   deactivate)
     echo "===================================================================="
