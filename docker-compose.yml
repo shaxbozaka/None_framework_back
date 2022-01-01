@@ -15,7 +15,7 @@ services:
   web:
     depends_on:
       - db
-    image: shaxbozaka:latest
+    image: 9873311/shaxbozaka:latest
     restart: on-failure:15
     build: .
     ports:
