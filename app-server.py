@@ -17,8 +17,6 @@ async def handle_client(reader, writer):
     print(sys.argv)
     if method.upper() == "GET":
         parsedurl = parse_qs(urlparse(data).query)
-        if sys.argv[1]:
-            writer.write(type_data + b'docker')
         if dashboard.write(parsedurl, True):
             writer.write(type_data + b'ok <a href=\'/\'>home</a>')
         else:
