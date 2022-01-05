@@ -1,5 +1,5 @@
 # medical
-## RUN
+## RUN on docker
 
 If you use `linux`, you have to type below command.
 
@@ -20,3 +20,8 @@ If you have some errors please type this command
 ###windows
 
 `sudo docker compose build`
+
+
+##RUN on local
+
+plese open `dashboard.py` and change `connect_db` function to your localhost mysql server conf.
