@@ -4,6 +4,6 @@ import subprocess, sys
 
 
 print("session started!!!")
-one = subprocess.run(f"python ./server.py | python ./app-server.py {sys.argv[1]}", shell=True)
+one = subprocess.run(f"python ./server.py | python ./app-server.py ", shell=True)
 
 print("session finished!!!")

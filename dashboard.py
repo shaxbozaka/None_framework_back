@@ -9,7 +9,7 @@ After db has started, this loop will stop
 """
 
 
-def connect_db(docker=False):
+def connect_db():
     x = 1
     while x:
         try:
@@ -18,11 +18,9 @@ def connect_db(docker=False):
                 host="db",
                 password="Qwerty123$",
                 port=3306,
-
-                # database="mds"
             )
             x = 0
-        except:
+        except mysql.connector.ProgrammingError:
             x += 1
             time.sleep(3)
             pass

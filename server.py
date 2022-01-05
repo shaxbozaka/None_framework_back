@@ -40,12 +40,11 @@ async def process_request(sever_root, path, request_headers):
     full_path = os.path.realpath(os.path.join(sever_root, path[1:]))
 
     # Validate the path
-    # if os.path.commonpath((sever_root, full_path)) != sever_root or \
-    #         not os.path.exists(full_path) or not os.path.isfile(full_path):
-    #     print("HTTP GET {} 404 NOT FOUND".format(path))
-    #     return HTTPStatus.NOT_FOUND, [], b'404 NOT FOUND'
+    if os.path.commonpath((sever_root, full_path)) != sever_root or \
+            not os.path.exists(full_path) or not os.path.isfile(full_path):
+        print("HTTP GET {} 404 NOT FOUND".format(path))
+        return HTTPStatus.NOT_FOUND, [], b'404 NOT FOUND'
 
-    # Guess file content type
     extension = full_path.split(".")[-1]
     mime_type = MIME_TYPES.get(extension, "application/octet-stream")
     response_headers.append(('Content-Type', mime_type))
@@ -62,14 +61,12 @@ async def time(websocket, path):
     while websocket.open:
         now = datetime.datetime.utcnow().isoformat()
         await websocket.send(now)
-    # This print will not run when abrnomal websocket close happens
-    # for example when tcp connection dies and no websocket close frame is sent
+
     print("WebSocket connection closed for", websocket.remote_address)
 
 
 if __name__ == "__main__":
 
-    # set first argument for the handler to current working directory
     handler = functools.partial(process_request, os.getcwd())
     start_server = websockets.serve(time, '0.0.0.0', 8000,
                                     process_request=handler)

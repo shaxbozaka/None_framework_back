@@ -2,11 +2,8 @@
 import sys
 
 print("server 2 has started own work!!")
-
-import asyncio, os
-import dashboard
+import asyncio, os, dashboard
 from urllib.parse import urlparse, parse_qs
-
 
 
 async def handle_client(reader, writer):
@@ -14,7 +11,6 @@ async def handle_client(reader, writer):
                 "Content-type: text/html\r\n\r\n".encode('utf-8')
     data = (await reader.read(4096)).decode()
     method = str(data.split()[0])
-    print(sys.argv)
     if method.upper() == "GET":
         parsedurl = parse_qs(urlparse(data).query)
         if dashboard.write(parsedurl, True):
@@ -22,7 +18,7 @@ async def handle_client(reader, writer):
         else:
             writer.write(type_data + b'we have somewhere error <a href=\'/\'>home</a>')
     else:
-        writer.write(type_data + b"method not found! <a href=\'/\'>home</a>")
+        writer.write(type_data + b"method not found! <a href=\'http://127.0.0.1:8000/\'>home</a>")
     writer.close()
 
 
