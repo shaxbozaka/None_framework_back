@@ -14,14 +14,14 @@ For Windows:
 
 If you have some errors please type this command
 
-###linux
+##linux
 `sudo docker-compose build`
 
-###windows
+##windows
 
 `sudo docker compose build`
 
 
-##RUN on local
+#RUN on local
 
 plese open `dashboard.py` and change `connect_db` function to your localhost mysql server conf.
