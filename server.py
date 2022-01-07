@@ -12,7 +12,7 @@ import random
 import functools
 import websockets
 from http import HTTPStatus
-
+import webbrowser
 
 MIME_TYPES = {
     "html": "text/html",
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     start_server = websockets.serve(time, '0.0.0.0', 8000,
                                     process_request=handler)
     print(start_server)
-    print("Running server at http://127.0.0.1/")
-
+    print("Running server at http://127.0.0.1:8000/")
+    webbrowser.open_new_tab('http://127.0.0.1:8000/')
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
